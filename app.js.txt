@@ -5,7 +5,7 @@ function addTask() {
         const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
         tasks.push({ name: task, completed: false });
         localStorage.setItem('tasks', JSON.stringify(tasks));
-        
+
         renderTasks();
         input.value = '';
     }
