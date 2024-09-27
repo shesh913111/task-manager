@@ -1,0 +1,11 @@
+function addTask() {
+    const input = document.getElementById('task-input');
+    const task = input.value;
+    if (task) {
+        const list = document.getElementById('task-list');
+        const listItem = document.createElement('li');
+        listItem.textContent = task;
+        list.appendChild(listItem);
+        input.value = ''; // Clear the input field
+    }
+}
