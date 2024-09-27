@@ -1,0 +1,47 @@
+function addTask() {
+    const input = document.getElementById('task-input');
+    const task = input.value;
+    if (task) {
+        const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+        tasks.push({ name: task, completed: false });
+        localStorage.setItem('tasks', JSON.stringify(tasks));
+        
+        renderTasks();
+        input.value = '';
+    }
+}
+
+function renderTasks() {
+    const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    const list = document.getElementById('task-list');
+    list.innerHTML = ''; // Clear existing tasks
+
+    tasks.forEach((task, index) => {
+        const listItem = document.createElement('li');
+
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.checked = task.completed;
+        checkbox.onclick = function() {
+            task.completed = !task.completed;
+            localStorage.setItem('tasks', JSON.stringify(tasks));
+            renderTasks(); // Re-render the tasks
+        };
+
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Delete';
+        deleteButton.onclick = function() {
+            tasks.splice(index, 1);
+            localStorage.setItem('tasks', JSON.stringify(tasks));
+            renderTasks(); // Re-render the tasks
+        };
+
+        listItem.appendChild(checkbox);
+        listItem.appendChild(document.createTextNode(task.name));
+        listItem.appendChild(deleteButton);
+        list.appendChild(listItem);
+    });
+}
+
+// Call renderTasks on page load
+window.onload = renderTasks;
